@@ -25,6 +25,19 @@
 
 }
 
+.delete-model-body {
+    width: 60%;
+    height: fit-content;
+    /* overflow: auto; */
+    margin: auto;
+    top: 0%;
+    background-color: white;
+    position: relative;
+    border-radius: 0px 0px 15px 15px;
+    padding-bottom: 2vh;
+    animation: dropdown 0.4s linear forwards;
+}
+
 @keyframes popup {
     0% {
         opacity: 0;
@@ -33,6 +46,18 @@
     100% {
         opacity: 1;
         transform: scale(1);
+    }
+    
+}
+
+@keyframes dropdown {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
     
 }

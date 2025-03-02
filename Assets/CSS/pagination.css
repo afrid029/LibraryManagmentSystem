@@ -1,0 +1,44 @@
+#pagination {
+
+        padding: 20px;
+    
+}
+
+
+.pagination {
+    display: flex;
+    gap: 15px;
+    font-family: "Roboto", serif;
+    font-size: 1vw;
+    align-items: center;
+  }
+  .pagination .selected {
+    color: rgb(233, 234, 238);
+    background-color: #03543c;
+    width: 16px;
+    height: 16px;
+    border-radius: 5px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pagination span {
+    font-weight: 600;
+    color: #542e03;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px;
+    border-radius: 4px;
+  }
+
+  .pagination span:hover {
+    background-color: #542e03;
+    color: aliceblue;
+  }
+  
+  .textPagi {
+    color: #542e03;
+  }

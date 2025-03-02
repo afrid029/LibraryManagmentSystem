@@ -151,6 +151,7 @@
   .button {
     display: flex;
     justify-content: flex-end;
+    gap: 10px;
   }
 
   .dash-button {
@@ -244,7 +245,7 @@
 
     .FormRow input, textarea {
       height: 35px;
-      font-size: 0.5rem;
+      font-size: 0.8rem;
     }
 
     .submit {

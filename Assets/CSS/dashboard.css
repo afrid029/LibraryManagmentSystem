@@ -211,6 +211,11 @@ a {
   width: 30%;
 }
 
+.search span {
+  cursor: pointer;
+  
+}
+
 .content {
   width: 98%;
   margin: auto;
@@ -279,12 +284,12 @@ a {
 }
 
 .available {
-  color: rgb(2, 61, 2);
+  color: rgb(7, 139, 7);
   font-weight: 600;
 }
 
 .not-available {
-  color: rgb(88, 4, 4);
+  color: rgb(187, 14, 14);
   font-weight: 600;
 }
 
@@ -312,11 +317,24 @@ a {
   font-weight: 600;
 }
 
-.about {
+/* .about {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
+} */
+
+.about {
+  display: grid;
+  grid-template-columns: 34% 32% 9% 19%;
+  width: 100%;
+  gap: 2%;
+  align-items: center;
+}
+
+.about-lender{
+  grid-template-columns: 23% 50% 23% !important;
+  
 }
 .count {
   display: flex;
@@ -324,6 +342,70 @@ a {
   justify-content: space-between;
   font-weight: 600;
 }
+
+.userAdd {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+ 
+}
+
+.image-viewer-container {
+  display: grid;
+  grid-template-columns: 46% 46%;
+  gap: 8%;
+  margin-top: 2vh;
+}
+
+.image-viewer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.image-viewer img {
+  width: 80%;
+}
+
+
+.userAdd-btn {
+  
+    cursor: pointer;
+    padding: 4px 8px;
+    border: transparent;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+    font-weight: 500;
+  
+}
+
+.history-header {
+  background-color: #f3efef;
+  display: grid;
+  grid-template-columns: 42% 19% 19% 14%;
+  gap: 2%;
+  font-family: 'Outfit', serif;
+  padding-top: 5px;
+  font-weight: 600;
+  padding-bottom: 5px;
+  font-size: 0.95rem;
+}
+
+.history-body {
+  display: grid;
+  grid-template-columns: 42% 19% 19% 14%;
+  gap: 2%;
+  font-family: 'Outfit', serif;
+  padding-top: 5px;
+  font-size: 0.85rem;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+
 
 @media (max-width: 1600px) {
   .ul div,
