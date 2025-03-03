@@ -1,7 +1,7 @@
 <html>
     <head>
 
-    <title>Eye Tamil | Not Found</title>
+    <title>CV Library | Not Found</title>
     <link rel="icon" type="image/png" href="/Assets/Images/logo.png" />
 
     <style>

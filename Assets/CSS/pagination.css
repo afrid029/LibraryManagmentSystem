@@ -15,12 +15,13 @@
   .pagination .selected {
     color: rgb(233, 234, 238);
     background-color: #03543c;
-    width: 16px;
-    height: 16px;
+    /* width: 16px;
+    height: 16px; */
     border-radius: 5px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    cursor:pointer;
   }
   
   .pagination span {
@@ -41,4 +42,76 @@
   
   .textPagi {
     color: #542e03;
+  }
+
+  @media (min-width: 1600px) {
+    #pagination {
+      padding: 22px;
+    }
+
+    .pagination {
+      font-size: 1.1rem;
+    }
+
+    .pagination .selected {
+      padding: 7px;
+    }
+
+    .pagination span:hover {
+      padding: 7px;
+    }
+  }
+
+  
+  @media (max-width: 1600px) {
+    #pagination {
+      padding: 20px;
+    }
+
+    .pagination {
+      font-size: 0.8rem;
+    }
+
+    .pagination .selected {
+      padding: 5px;
+    }
+
+    .pagination span:hover {
+      padding: 5px;
+    }
+  }
+  @media (max-width: 1200px) {
+    #pagination {
+      padding: 18px;
+    }
+
+    .pagination {
+      font-size: 0.6rem;
+    }
+
+    .pagination .selected {
+      padding: 5px;
+    }
+
+    .pagination span:hover {
+      padding: 5px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    #pagination {
+      padding: 18px;
+    }
+
+    .pagination {
+      font-size: 0.6rem;
+    }
+
+    .pagination .selected {
+      padding: 5px;
+    }
+
+    .pagination span:hover {
+      padding: 5px;
+    }
   }

@@ -1,7 +1,12 @@
 <?php
 
-
+    if (!isset($_COOKIE['user'])) {
+        header('Location: /');
+        echo "<script>window.location.pathname = '/'</script>";
+        exit();
+    }
     include ('DBConnectivity.php');
+    
     $data = array();
     if(isset($_GET['ID'])){
         $ID = $_GET['ID'];

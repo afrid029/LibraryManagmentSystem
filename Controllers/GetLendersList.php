@@ -1,4 +1,9 @@
 <?php 
+  if (!isset($_COOKIE['user'])) {
+    header('Location: /');
+    echo "<script>window.location.pathname = '/'</script>";
+    exit();
+}
 include ('DBConnectivity.php');
 $query = "SELECT * FROM lenders order by name";
 $result = mysqli_query($db, $query);

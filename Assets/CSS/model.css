@@ -100,3 +100,111 @@
     height: 85%
     
 }
+
+.image-viewer-container {
+    display: grid;
+    grid-template-columns: 46% 46%;
+    gap: 8%;
+    margin-top: 2vh;
+  }
+  
+  .image-viewer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Outfit', serif;
+  }
+  
+  .image-viewer img {
+    width: 80%;
+  }
+
+  @media (min-width: 1600px) {
+    .model-title {
+        font-size: 2rem;
+    }
+
+    .close-btn {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .image-viewer {
+        font-size: 1.7rem;
+    }
+  }
+  @media (max-width: 1600px) {
+    .model-title {
+        font-size: 1.4rem;
+    }
+
+    .close-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1.1rem;
+    }
+
+    .image-viewer {
+        font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    .model-title {
+        font-size: 1.1rem;
+    }
+
+    .close-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 0.9rem;
+    }
+
+    .image-viewer {
+        font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .model-title {
+        font-size: 1rem;
+    }
+
+    .close-btn {
+        width: 22px;
+        height: 22px;
+        font-size: 0.8rem;
+    }
+
+    .image-viewer {
+        font-size: 0.7rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .model-title {
+        font-size: 1rem;
+    }
+
+    .close-btn {
+        width: 25px;
+        height: 25px;
+        font-size: 0.8rem;
+    }
+
+    .image-viewer-container {
+        grid-template-columns: 100%;
+        gap: 8%;
+        
+      }
+
+    .image-viewer {
+        font-size: 0.7rem;
+    }
+
+    .delete-model-body {
+        width: 90%;
+    }
+  }

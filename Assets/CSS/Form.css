@@ -166,7 +166,7 @@
     border: none;
     height: 6vh;
     color: white;
-    /* font-family: "Inter", serif; */
+    font-family: "Outfit", serif;
     cursor: pointer;
     letter-spacing: 2px;
     font-weight: 600;
@@ -192,6 +192,9 @@
       height: 160px !important;
     }
 
+    label, select {
+      font-size: 1.1rem;
+    }
     .FormRow input, textarea {
       height: 60px;
       font-size: 1.2rem;
@@ -199,7 +202,7 @@
 
     .submit {
       height: 5vh;
-      font-size: 1.4rem;
+      font-size: 1.15rem;
     }
   }
   @media (max-width: 1600px) {
@@ -221,9 +224,13 @@
       font-size: 0.8rem;
     }
 
+    label, select {
+      font-size: 0.8rem;
+    }
+
     .submit {
       height: 5vh;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
     }
   }
   
@@ -246,6 +253,10 @@
     .FormRow input, textarea {
       height: 35px;
       font-size: 0.8rem;
+    }
+    
+    label, select {
+      font-size: 0.65rem;
     }
 
     .submit {
@@ -278,16 +289,6 @@
       font-size: 1rem;
     }
   }
-  
-  @media (max-width: 600px) {
-  
-
-    .submit {
-      width: 70%;
-      height: 4.5vh;
-      font-size: 0.85rem;
-    }
-  }
 
   @media (max-width: 600px) {
 
@@ -302,5 +303,10 @@
 
     .row p {
       font-size: 1rem;
+    }
+
+    .submit {
+      
+      font-size: 0.7rem;
     }
   }

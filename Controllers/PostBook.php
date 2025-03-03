@@ -1,4 +1,9 @@
 <?php
+  if (!isset($_COOKIE['user'])) {
+    header('Location: /');
+    echo "<script>window.location.pathname = '/'</script>";
+    exit();
+}
 if(isset($_POST['submit'])){
 
     include('DBConnectivity.php');
@@ -100,7 +105,10 @@ if(isset($_POST['submit'])){
     $targetBackFile;
 
     if(isset($_FILES['frontImage']) && $_FILES['frontImage']['error'] == 0) {
-        unlink($fetchedRow['frontpage']);
+        if(file_exists($fetchedRow['frontpage'])){
+              unlink($fetchedRow['frontpage']);
+        }
+      
         $isFront = true;
         $targetDirectory = $_SERVER['DOCUMENT_ROOT'] . "/Public/Books/";
 
@@ -127,7 +135,10 @@ if(isset($_POST['submit'])){
 
 
     if(isset($_FILES['backImage']) && $_FILES['backImage']['error'] == 0) {
-        unlink($fetchedRow['backpage']);
+        if(file_exists($fetchedRow['backpage'])){
+            unlink($fetchedRow['backpage']);
+        }
+        
         $isBack = true;
         $targetDirectory = $_SERVER['DOCUMENT_ROOT'] . "/Public/Books/";
 

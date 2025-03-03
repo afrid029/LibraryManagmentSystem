@@ -1,4 +1,9 @@
 <?php
+  if (!isset($_COOKIE['user'])) {
+    header('Location: /');
+    echo "<script>window.location.pathname = '/'</script>";
+    exit();
+}
 include('DBConnectivity.php');
 $ID = $_GET['ID'];
 $query = "SELECT bh.*, b.name FROM borrowhistory bh
@@ -9,7 +14,7 @@ $query = "SELECT bh.*, b.name FROM borrowhistory bh
 $result = mysqli_query($db, $query);
 
 $html = "<div class='history-header'>
-    <div style='padding-left: 10px;'>Book</div>
+    <div>Book</div>
     <div>Lent Date</div>
     <div>Due date</div>
     <div>Status</div>
@@ -25,7 +30,7 @@ if(mysqli_num_rows($result) > 0) {
         }
     
         $html .= "<div class='history-body'>
-                    <div style='padding-left: 10px;'>".$row['name']."</div>
+                    <div>".$row['name']."</div>
                     <div>".$row['lentdate']."</div>
                     <div>".$row['deadline']."</div>
                     $content

@@ -13,10 +13,16 @@ $request = explode('?', $request)[0];
 
 // Define routes
 switch ($request) {
-    // case '/':
-    //     require 'index.php';  // Home page
-    //     break;
     case '/':
+        require 'index.php';  // Home page
+        break;
+    case '/login':
+        require 'Controllers/login.php';  
+    break;
+    case '/logoff':
+        require 'Controllers/logoff.php';
+    break;
+    case '/dashboard':
         require 'Pages/dashboard.php';
         break;
     default:

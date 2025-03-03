@@ -1,5 +1,11 @@
 <?php
     if(isset($_POST['submit'])){
+
+       if (!isset($_COOKIE['user'])) {
+            header('Location: /');
+            echo "<script>window.location.pathname = '/'</script>";
+            exit();
+        }
         include('DBConnectivity.php');
         $ID = $_POST['ID'];
         $type = $_POST['type'];
@@ -66,9 +72,14 @@
             $query = "SELECT * FROM books WHERE ID = '$ID'";
             $result = mysqli_query($db, $query);
             $fetchedResult = mysqli_fetch_assoc($result);
-            unlink($fetchedResult['frontpage']);
-            unlink($fetchedResult['backpage']);
+            if(file_exists($fetchedResult['frontpage'])){
+                unlink($fetchedResult['frontpage']);
+            }
+            if(file_exists($fetchedResult['backpage'])){
+                unlink($fetchedResult['backpage']);
 
+            }
+            
             $query = "DELETE from books where ID = '$ID'";
             $result = mysqli_query($db, $query);
 

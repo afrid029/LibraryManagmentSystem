@@ -1,4 +1,9 @@
 <?php
+  if (!isset($_COOKIE['user'])) {
+    header('Location: /');
+    echo "<script>window.location.pathname = '/'</script>";
+    exit();
+}
 
 $results_per_page = 10;
 

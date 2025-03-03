@@ -1,8 +1,10 @@
+<?php SESSION_START() ?>
 <html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Library Console | CVHTH</title>
+    <link rel="icon" type="image/png" href="Assets/Images/icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400..900&family=Outfit:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -16,9 +18,70 @@
     <link rel="stylesheet" href="/Assets/CSS/Form.css">
     <link rel="stylesheet" href="/Assets/CSS/model.css">
     <link rel="stylesheet" href="/Assets/CSS/pagination.css">
+    <link rel="stylesheet" href="/Assets/CSS/alert.css">
 </head>
 
 <body>
+
+<?php
+    
+    if (isset($_SESSION['fromAction']) && $_SESSION['fromAction'] === true) { ?>
+
+
+        <div class="alert-container" id="alertSecond">
+            <div class="alert" id="alertContSecond">
+                <p><?php echo $_SESSION['message'] ?></p>
+            </div>
+        </div>
+
+        <?php
+        if ($_SESSION['status'] === true) {
+            echo "<script>document.getElementById('alertContSecond').style.backgroundColor = '#1D7524';</script>";
+        } else {
+            echo "<script>document.getElementById('alertContSecond').style.backgroundColor = '#E44C4C';</script>";
+        }
+        ?>
+        <script>
+            document.getElementById('alertSecond').style.display = 'flex';
+            
+            console.log('Alert triggerdd');
+        
+
+            setTimeout(() => {
+                document.getElementById('alertSecond').style.display = 'none';
+            }, 7000);
+        </script>
+    <?php
+    }
+    $_SESSION['fromAction'] = false;
+
+    if (!isset($_COOKIE['user'])) {
+        header('Location: /');
+        echo "<script>window.location.pathname = '/'</script>";
+        exit();
+    } else {
+
+        $data = base64_decode($_COOKIE['user']);
+
+        // Extract the IV (the first 16 bytes)
+        $iv = substr($data, 0, 16);
+
+        // Extract the encrypted email (the rest of the string)
+        $encryptedData = substr($data, 16);
+        $key = 'a4c1b3d9127e8d9f0767e9bb432f8d3e4c5d7f3a02928d4f1a62b931ef8e9c68';
+        // Decrypt the email using AES-256-CBC decryption
+        $decryptedData = openssl_decrypt($encryptedData, 'aes-256-cbc', $key, 0, $iv);
+
+        // $query = "SELECT * from users where email = '$decryptedEmail'";
+        $passedArray = unserialize($decryptedData);
+        // $result = mysqli_query($db, $query);
+
+            $_SESSION['ID'] = $passedArray['ID'];
+            $_SESSION['role'] = $passedArray['role'];
+       
+    }
+
+    ?>
 
     <!-- Delete Model -->
     <div id="delete-model" class="model-overlay">
@@ -568,7 +631,7 @@
     <div class="mobile-side-bar">
         <div class="mobile-side-bar-content">
             <div onclick="slideBar(false)" class="close">x</div>
-            <img src="/Assets/Images/logo.jpg" alt="">
+            <img src="/Assets/Images/logo.png" alt="">
 
             <div class="mobile-ul">
                 <div class="active" onclick="navigate(1)"><a> <span class="material-symbols-outlined">
@@ -583,10 +646,18 @@
                             deployed_code_history
                         </span>Borrow History</a></div>
                 <hr>
-                <div onclick="navigate(4)"><a><span class="material-symbols-outlined">
+
+                <?php
+                    if(isset($_SESSION['role']) && $_SESSION['role'] == 'superadmin'){
+                        ?>
+                        <div onclick="navigate(4)"><a><span class="material-symbols-outlined">
                             shield_person
                         </span>Admins</a></div>
                 <hr>
+                <?php
+                    }
+                ?>
+              
                 <div><a onclick="handleModel('add-book-model', true)"><span class="material-symbols-outlined">
                             post_add
                         </span>Add Books</a></div>
@@ -619,7 +690,7 @@
     <div class="nav">
         <div class="nav-cover"></div>
 
-        <img src="/Assets/Images/logo.jpg" alt="" />
+        <img src="/Assets/Images/logo2.png" alt="" />
 
         <div class="ul">
             <div class="active" onclick="navigate(1)"><a> <span class="material-symbols-outlined">
@@ -631,9 +702,18 @@
             <div onclick="navigate(3)"><a><span class="material-symbols-outlined">
                         deployed_code_history
                     </span>Borrow History</a></div>
-            <div onclick="navigate(4)"><a><span class="material-symbols-outlined">
+
+            <?php 
+                if(isset($_SESSION['role']) && $_SESSION['role'] == 'superadmin'){
+                ?>
+                    <div onclick="navigate(4)"><a><span class="material-symbols-outlined">
                         shield_person
                     </span>Admins</a></div>
+                <?php
+
+                }
+            ?>
+            
             <div onclick="handleModel('add-book-model', true)"><a><span class="material-symbols-outlined">
                         post_add
                     </span>Add Books</a></div>
@@ -656,7 +736,7 @@
 
     <div class="body">
         <div class="search">
-            <div style="flex-direction: row; align-items: center" class="FormRow">
+            <div class="FormRow SearchRow">
                 <span onclick="clearSearch()" style="display: none;" id="closeSearch" class="material-symbols-outlined">
                     close
                 </span>
@@ -666,6 +746,12 @@
                 </span>
             </div>
 
+        </div>
+
+        <div class="loading">
+            <span class="material-symbols-outlined">
+                progress_activity
+            </span>
         </div>
 
         <div class="content">
@@ -753,6 +839,8 @@
     function loadPage(page, pagination) {
         const xhr = new XMLHttpRequest();
 
+        document.querySelector('.loading').style.display = 'flex';
+
         if (page == 1) {
             if(pagination){
                 bookPage = pagination;
@@ -778,6 +866,7 @@
         xhr.onload = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText);
+                document.querySelector('.loading').style.display = 'none';
                 const content = document.querySelector(".content");
                 const pagination = document.querySelector("#pagination");
                 content.innerHTML = response.html;
@@ -1799,7 +1888,7 @@
     }
 
     window.onload = function() {
-        loadPage(1);
+       loadPage(1);
     }
 </script>
 

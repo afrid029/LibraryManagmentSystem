@@ -1,5 +1,11 @@
 <?php
 
+if (!isset($_COOKIE['user'])) {
+    header('Location: /');
+    echo "<script>window.location.pathname = '/'</script>";
+    exit();
+}
+
 $results_per_page = 10;
 
 // Get the current page from the URL, default to 1 if not set

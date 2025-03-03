@@ -1,0 +1,98 @@
+* {
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url("/Assets/Images/library.jpg");
+  background-size: 100% 100%;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.body-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(245, 244, 244, 0.45);
+}
+
+.login {
+  width: 60%;
+  height: fit-content;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;;
+  border-radius: 25px;
+  padding: 15px;
+
+  /* From https://css.glass */
+  background: rgba(226, 226, 226, 0.65);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  overflow: hidden;
+
+  animation: roll 0.5s linear forwards;
+}
+
+@keyframes roll {
+    0% {
+        opacity: 0;
+        transform: scale(0.4);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.login img {
+  width: 40%;
+}
+
+@media (min-width: 1600px) {
+  .login img {
+    width: 25%;
+  }
+}
+@media (max-width: 1600px) {
+  .login img {
+    width: 28%;
+  }
+}
+@media (max-width: 1024px) {
+  .login img {
+    width: 30%;
+  }
+}
+@media (max-width: 900px) {
+    .login {
+        width: 80%;
+    }
+  .login img {
+    width: 50%;
+  }
+}
+@media (max-width: 900px) {
+   
+  .login img {
+    width: 40%;
+  }
+}
+
+@media (max-width: 600px) {
+  .login {
+    width: 90%;
+  }
+}
+
+
+
