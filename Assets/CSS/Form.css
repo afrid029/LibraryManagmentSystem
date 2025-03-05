@@ -252,7 +252,7 @@
 
     .FormRow input, textarea {
       height: 35px;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
     }
     
     label, select {
@@ -281,12 +281,12 @@
 
     .FormRow input, textarea {
       height: 35px;
-      font-size: 0.9rem;
+      font-size: 0.6rem;
     }
 
     .submit {
-      height: 4.5vh;
-      font-size: 1rem;
+      height: 4vh;
+      font-size: 0.8rem;
     }
   }
 

@@ -12,6 +12,19 @@ if(isset($_POST['submit'])){
     $lender = $_POST['lender'];
     $startDate = $_POST['startDate'];
     $dueDate = $_POST['dueDate'];
+
+    $query = "SELECT COUNT(*) as any FROM borrowhistory where book_ID = '$book' AND lender_ID = '$lender' AND status = 1";
+    $result = mysqli_query($db, $query);
+    $row = mysqli_fetch_assoc($result);
+
+    if($row['any'] > 0){
+        echo json_encode([
+            'status' => false,
+            'message' => 'Lender already borrowed this book!'
+        ]);
+        mysqli_close($db);
+        exit();
+    }
   
     
     $query = "SELECT count(*) as cnt FROM borrowhistory";
@@ -48,6 +61,25 @@ if(isset($_POST['submit'])){
     $lender = $_POST['lender'];
     $startDate = $_POST['startDate'];
     $dueDate = $_POST['dueDate'];
+
+    $query = "SELECT * FROM borrowhistory where ID = '$ID'";
+    $result = mysqli_query($db, $query);
+    $row = mysqli_fetch_assoc($result);
+
+    if(($row['book_ID'] != $book) || ($row['lender_ID'] != $lender)){
+        $query = "SELECT COUNT(*) as any FROM borrowhistory where book_ID = '$book' AND lender_ID = '$lender' AND status = 1";
+        $result = mysqli_query($db, $query);
+        $row = mysqli_fetch_assoc($result);
+    
+        if($row['any'] > 0){
+            echo json_encode([
+                'status' => false,
+                'message' => 'Lender already borrowed this book!'
+            ]);
+            mysqli_close($db);
+            exit();
+        }
+    }
    
   
     if(isset($_POST['rcvd'])){

@@ -1,9 +1,8 @@
 <?php
-  if (!isset($_COOKIE['user'])) {
-    header('Location: /');
-    echo "<script>window.location.pathname = '/'</script>";
-    exit();
-}
+ 
+
+
+
 
 
 $results_per_page = 10;
@@ -21,7 +20,7 @@ if(isset($_GET['key']) && $_GET['key'] != 'undefined'){
     $key = $_GET['key'];
     $query = "SELECT b.*, (SELECT count(*) FROM borrowhistory bh WHERE bh.book_ID = b.ID and bh.status = true) leftBooks
                 FROM books b
-                WHERE b.name like '%$key%' OR b.author like '%$key%' OR b.donor like '%$key%'
+                WHERE b.ID like '%$key%' OR  b.name like '%$key%' OR b.author like '%$key%' OR b.donor like '%$key%'
                 order by b.name LIMIT $offset, $results_per_page";
 }else {
     
@@ -52,7 +51,10 @@ if(mysqli_num_rows($result) > 0){
         $available = (int) $row['count'] - (int) $row['leftBooks'];
         $html .= " <div class='tile'>
                     <div class='title'>
-                        <h4 id='$ID-name'>" . $row['name'] . "</h4>
+                        <div class='title-div'>
+                            <h4 id='$ID-name'>" . $row['name'] . "</h4>
+                            <small>".$row['ID']."</small>
+                        </div>
                         <div class='bookEdit'>
                             <small class='$class'>$content</small>
     
@@ -89,7 +91,7 @@ if(isset($_GET['key']) && $_GET['key'] != 'undefined'){
 
     $key = $_GET['key'];
     $sql = "SELECT COUNT(*) AS total FROM books b
-                WHERE b.name like '%$key%' OR b.author like '%$key%' OR b.donor like '%$key%'";
+                WHERE b.ID like '%$key%' OR b.name like '%$key%' OR b.author like '%$key%' OR b.donor like '%$key%'";
 }else {
     $sql = "SELECT COUNT(*) AS total FROM books";        
 }
@@ -135,6 +137,8 @@ if ($page < $total_pages) {
 
 $pagination .= "</div>";
 
+// echo ini_get('max_execution_time');
+$html = mb_convert_encoding($html, 'UTF-8', 'auto');
 mysqli_close($db);
 echo json_encode([
     'html' => $html,

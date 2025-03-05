@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Library Console | CVHTH</title>
+    <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="Assets/Images/icon.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -372,15 +373,24 @@
                 <form id="add-history-form" method="post" oninput="validateHistoryForm()">
                     <div class="form">
                         <div class="FormRow">
-                            <select name="book" id="book">
+                            <input type="text" id="search-book" placeholder="Search Book">
+                            <div class="selection" id="book"></div>
+                            <input name="book" id="selected-book-value" placeholder="Select a Book" hidden></input>
+                            <div class="selected" id="selected-book" >Selected Book : </div>
 
-                            </select>
+                            
                         </div>
                         <div class="FormRow">
-                            <select name="lender" id="lender">
+                            <!-- <select name="lender" id="lender">
+                            </select> -->
 
-                            </select>
+                            <input type="text" id="search-lender" placeholder="Search Lender">
+                            <div class="selection" id="lender"></div>
+                            <input name="lender" id="selected-lender-value" placeholder="Select a Lender" hidden></input>
+                            <div class="selected" id="selected-lender" >Selected Lender : </div>
                         </div>
+
+
                         <div class="FormRow">
                             <label for="startDate">Lending date</label>
                             <input type="date" name="startDate" id="startDate" required />
@@ -428,16 +438,27 @@
                 <form id="edit-history-form" method="post" oninput="validateEditHistoryForm()">
                     <div class="form">
                         <input type="text" name="ID" id="editHistId" hidden>
-                        <div class="FormRow">
-                            <select name="book" id="edit-book">
+                     
 
-                            </select>
+                        <div class="FormRow">
+                            <input type="text" id="edit-search-book" placeholder="Search Book">
+                            <div class="selection" id="edit-book"></div>
+                            <input name="book" id="edit-selected-book-value" placeholder="Select a Book" hidden></input>
+                            <div class="selected" id="edit-selected-book" >Selected Book : </div>
+
+                            
                         </div>
                         <div class="FormRow">
-                            <select name="lender" id="edit-lender">
+                            <!-- <select name="lender" id="lender">
+                            </select> -->
 
-                            </select>
+                            <input type="text" id="edit-search-lender" placeholder="Search Lender">
+                            <div class="selection" id="edit-lender"></div>
+                            <input name="lender" id="edit-selected-lender-value" placeholder="Select a Lender" hidden></input>
+                            <div class="selected" id="edit-selected-lender" >Selected Lender : </div>
                         </div>
+
+
                         <div class="FormRow">
                             <label for="startDate">Lent date</label>
                             <input type="date" name="startDate" id="edit-startDate" required />
@@ -690,7 +711,7 @@
     <div class="nav">
         <div class="nav-cover"></div>
 
-        <img src="/Assets/Images/logo2.png" alt="" />
+        <img onclick="gotoHome()" src="/Assets/Images/logo2.png" alt="" />
 
         <div class="ul">
             <div class="active" onclick="navigate(1)"><a> <span class="material-symbols-outlined">
@@ -772,6 +793,10 @@
     let userPage = 1
 
     let key;
+
+    function gotoHome() {
+        window.location.pathname = '/'
+    }
 
     function slideBar(val) {
         const sidebar = document.querySelector(".mobile-side-bar");
@@ -1181,15 +1206,16 @@
     });
 
     // Get Lenders List
+    let lenderResponse;
     function GetLenders() {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "/Controllers/GetLendersList.php", true);
         xhr.onload = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
+                lenderResponse = JSON.parse(xhr.responseText);
                 // console.log(response.data);
 
-                LoadLenders(response.data);
+                LoadLenders(lenderResponse.data);
 
             } else {
                 console.log("Error in XMLHttpRequest ", xhr.readyState);
@@ -1200,27 +1226,47 @@
     }
 
     function LoadLenders(data) {
+    
         const select = document.getElementById("lender");
         select.innerHTML = "";
-        select.innerHTML = "<option value='none' disabled selected>Select Lender</option>";
         data.forEach(element => {
-            const option = document.createElement("option");
-            option.value = element.ID;
+            const option = document.createElement("div");
+            option.classList.add("option")
+            option.onclick = function() {
+                document.getElementById("selected-lender-value").value = element.ID
+                document.getElementById("selected-lender").innerText = "Selected Lender: "+element.name+ " ("+element.ID+")";
+                validateHistoryForm();
+            }
             option.innerText = element.name + ' (' + element.ID + ')';
             select.appendChild(option);
+            const hr = document.createElement('hr');
+            select.appendChild(hr);
         });
     }
 
+    document.getElementById("search-lender").addEventListener('keyup', function(event){
+        const value = event.target.value;
+        if(value.length > 0) {
+            let temp = lenderResponse.data.filter(el => el.ID.toUpperCase().includes(value.toUpperCase()) || el.name.toUpperCase().includes(value.toUpperCase()));
+            LoadLenders(temp);
+        }else {
+            LoadLenders(lenderResponse.data);
+        }   
+        
+    })
+
     //Get Book List
+
+    let bookResponse;
     function GetBooks() {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "/Controllers/GetBooksList.php", true);
         xhr.onload = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
+                bookResponse = JSON.parse(xhr.responseText);
                 // console.log(response.data);
 
-                LoadBooks(response.data);
+                LoadBooks(bookResponse.data);
 
             } else {
                 console.log("Error in XMLHttpRequest ", xhr.readyState);
@@ -1234,19 +1280,36 @@
     function LoadBooks(data) {
         const select = document.getElementById("book");
         select.innerHTML = "";
-        select.innerHTML = "<option value='none' disabled selected>Select Book</option>";
         data.forEach(element => {
-            const option = document.createElement("option");
-            option.value = element.ID;
+            const option = document.createElement("div");
+            option.classList.add("option")
+            option.onclick = function() {
+                document.getElementById("selected-book-value").value = element.ID
+                document.getElementById("selected-book").innerText = "Selected Book: "+element.name+ " ("+element.ID+")";
+                validateHistoryForm();
+            }
             option.innerText = element.name + ' (' + element.available + ')';
             select.appendChild(option);
+            const hr = document.createElement('hr');
+            select.appendChild(hr);
         });
     }
 
+    document.getElementById("search-book").addEventListener('keyup', function(event){
+        const value = event.target.value;
+        if(value.length > 0) {
+            let temp = bookResponse.data.filter(el => el.ID.toUpperCase().includes(value.toUpperCase()) || el.name.toUpperCase().includes(value.toUpperCase()));
+            LoadBooks(temp);
+        }else {
+            LoadBooks(bookResponse.data);
+        }   
+        
+    })
+
     // Borrow Book
     function validateHistoryForm() {
-        const book = document.getElementById("book").value;
-        const lender = document.getElementById("lender").value;
+        const book = document.getElementById("selected-book-value").value;
+        const lender = document.getElementById("selected-lender-value").value;
         const startDate = document.getElementById("startDate").value;
         const dueDate = document.getElementById("dueDate").value;
 
@@ -1263,7 +1326,7 @@
             document.getElementById("dueDate").value = duedate.toISOString().split('T')[0];
         }
 
-        if (book != 'none' && lender != 'none' && startDate.length > 0 && dueDate.length > 0) {
+        if (book.length > 0 && lender.length > 0 && startDate.length > 0 && dueDate.length > 0) {
             submit.removeAttribute("disabled");
         } else {
             submit.setAttribute("disabled", true);
@@ -1346,15 +1409,16 @@
 
     
     // Get Lenders List for edit
+    let editLenderResponse;
     function EditGetLenders(ID) {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "/Controllers/GetLendersList.php", true);
         xhr.onload = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
-                // console.log(response.data);
+                editLenderResponse = JSON.parse(xhr.responseText);
+                // console.log(editLenderResponse);
 
-                EditLoadLenders(response.data, ID);
+                EditLoadLenders(editLenderResponse.data, ID);
 
             } else {
                 console.log("Error in XMLHttpRequest ", xhr.readyState);
@@ -1365,29 +1429,54 @@
     }
 
     function EditLoadLenders(data, ID) {
-       const select = document.getElementById('edit-lender');
-       select.innerHTML = '';
+            // console.log(data);
+       
+        const select = document.getElementById("edit-lender");
+        select.innerHTML = "";
         data.forEach(element => {
-            const option = document.createElement("option");
-            option.value = element.ID;
-            option.innerText = element.name + ' (' + element.ID + ')';
-            if(ID == element.ID) {
-                option.selected = true;
+            const option = document.createElement("div");
+            option.classList.add("option")
+            option.onclick = function() {
+                document.getElementById("edit-selected-lender-value").value = element.ID
+                document.getElementById("edit-selected-lender").innerText = "Selected Lender: "+element.name+ " ("+element.ID+")";
+                validateEditHistoryForm();
             }
+            option.innerText = element.name + ' (' + element.ID + ')';
             select.appendChild(option);
+            const hr = document.createElement('hr');
+            select.appendChild(hr);
+
+            if(ID == element.ID){
+                document.getElementById("edit-selected-lender-value").value = ID;
+                document.getElementById("edit-selected-lender").innerText = "Selected Lender: "+element.name+ " ("+element.ID+")";
+            }
         });
+
+        validateEditHistoryForm();
     }
 
+    document.getElementById("edit-search-lender").addEventListener('keyup', function(event){
+        const value = event.target.value;
+        if(value.length > 0) {
+            let temp = editLenderResponse.data.filter(el => el.ID.toUpperCase().includes(value.toUpperCase()) || el.name.toUpperCase().includes(value.toUpperCase()));
+            EditLoadLenders(temp);
+        }else {
+            EditLoadLenders(editLenderResponse.data);
+        }   
+        
+    })
+
     //Get Book List for edit
+     let editBookResponse
     function EditGetBooks(ID) {
         const xhr = new XMLHttpRequest();
         xhr.open("GET", "/Controllers/GetBooksList.php?ID="+ID, true);
         xhr.onload = function() {
             if (xhr.readyState == 4 && xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
+                editBookResponse = JSON.parse(xhr.responseText);
                 // console.log(response.data);
 
-                EditLoadBooks(response.data, ID);
+                EditLoadBooks(editBookResponse.data, ID);
 
             } else {
                 console.log("Error in XMLHttpRequest ", xhr.readyState);
@@ -1399,38 +1488,50 @@
     }
 
     function EditLoadBooks(data, ID) {
+        //    console.log(data);
+       
         const select = document.getElementById("edit-book");
         select.innerHTML = "";
-       
-        $selectedLoded = false;
         data.forEach(element => {
-            const option = document.createElement("option");
-            if(ID == element.ID && $selectedLoded == false){
-                option.value = element.ID;
-                option.innerText = element.name + ' (' + element.available + ')';
-                
-                option.selected = true;
-                $selectedLoded = true;
-                
-                select.appendChild(option);
+            const option = document.createElement("div");
+            option.classList.add("option")
+            option.onclick = function() {
+                document.getElementById("edit-selected-book-value").value = element.ID
+                document.getElementById("edit-selected-book").innerText = "Selected Book: "+element.name+ " ("+element.ID+")";
+                validateEditHistoryForm();
             }
+            option.innerText = element.name + ' (' + element.available + ')';
+            select.appendChild(option);
+            const hr = document.createElement('hr');
+            select.appendChild(hr);
 
-            if(ID != element.ID){
-                option.value = element.ID;
-                option.innerText = element.name + ' (' + element.available + ')';                
-                select.appendChild(option);
+            if(ID == element.ID){
+                document.getElementById("edit-selected-book-value").value = element.ID
+                document.getElementById("edit-selected-book").innerText = "Selected Book: "+element.name + " ("+element.ID+")";
             }
-
-
         });
+
+        validateEditHistoryForm();
     }
+
+    document.getElementById("edit-search-book").addEventListener('keyup', function(event){
+        const value = event.target.value;
+        if(value.length > 0) {
+            let temp = editBookResponse.data.filter(el => el.ID.toUpperCase().includes(value.toUpperCase()) || el.name.toUpperCase().includes(value.toUpperCase()));
+            EditLoadBooks(temp);
+        }else {
+            EditLoadBooks(editBookResponse.data);
+        }   
+        
+    })
 
      // Edit Borrow Book
      function validateEditHistoryForm() {
+    //  console.log('hjj');
      
         
-        const book = document.getElementById("edit-book").value;
-        const lender = document.getElementById("edit-lender").value;
+        const book = document.getElementById("edit-selected-book-value").value;
+        const lender = document.getElementById("edit-selected-lender-value").value;
         const startDate = document.getElementById("edit-startDate").value;
         const dueDate = document.getElementById("edit-dueDate").value;
         const checkBox = document.getElementById("rcvd").checked;
@@ -1458,8 +1559,7 @@
         const submit = document.getElementById("edit-history-submit");
 
         if (startDate.length > 0) {
-           console.log('dsad');
-           
+          
             const date = new Date(startDate);
             const newDate = new Date(date);
             const updatedDate = newDate.setDate(newDate.getDate() + 14);
@@ -1468,7 +1568,7 @@
             document.getElementById("edit-dueDate").value = duedate.toISOString().split('T')[0];
         }
 
-        if (book != 'none' && lender != 'none' && startDate.length > 0 && dueDate.length > 0 && mandCheck) {
+        if (book.length > 0 && lender.length > 0 && startDate.length > 0 && dueDate.length > 0 && mandCheck) {
             submit.removeAttribute("disabled");
         } else {
             submit.setAttribute("disabled", true);

@@ -16,6 +16,9 @@ switch ($request) {
     case '/':
         require 'index.php';  // Home page
         break;
+    case '/loginpage':
+        require 'Pages/Login.php';  
+    break;
     case '/login':
         require 'Controllers/login.php';  
     break;
@@ -23,7 +26,7 @@ switch ($request) {
         require 'Controllers/logoff.php';
     break;
     case '/dashboard':
-        require 'Pages/dashboard.php';
+        require 'Pages/Dashboard.php';
         break;
     default:
         http_response_code(404); // Not Found

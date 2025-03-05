@@ -76,7 +76,7 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background: linear-gradient(90deg, var(--dark-color) 0%, var(--light-color) 100%);
+    background: linear-gradient(90deg, #03543c 0%, #26b68c 100%);
     cursor: pointer;
     color: white;
     font-family: 'gabarito', serif;
@@ -106,6 +106,7 @@
     grid-template-columns: 46% 46%;
     gap: 8%;
     margin-top: 2vh;
+    margin-bottom: 5vh;
   }
   
   .image-viewer {
@@ -118,6 +119,30 @@
   
   .image-viewer img {
     width: 80%;
+  }
+
+  .model-foot {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 5vh;
+    position: fixed;
+    bottom: 0px;
+    height: 50px;
+    padding-bottom: 10px;
+    background-color: wheat;
+    padding-top: 5px;
+    border-radius: 0px 0px 15px 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .model-foot p {
+    font-family: 'Outfit', serif;
+    font-weight: 600;
   }
 
   @media (min-width: 1600px) {
@@ -206,5 +231,8 @@
 
     .delete-model-body {
         width: 90%;
+    }
+    .model-foot p{
+        font-size: 0.8rem;
     }
   }

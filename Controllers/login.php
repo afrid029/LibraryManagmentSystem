@@ -48,7 +48,7 @@ if(isset($_POST['submit'])){
                 $_SESSION['message'] = 'Entered Password is wrong';
                 $_SESSION['status'] = false;
                 mysqli_close($db);
-                header('Location: /');
+                header('Location: /loginpage');
                 exit();
             }
         
@@ -60,7 +60,7 @@ if(isset($_POST['submit'])){
         $_SESSION['message'] = 'Username not found!';
         $_SESSION['status'] = false;
         mysqli_close($db);
-        header('Location: /');
+        header('Location: /loginpage');
         exit();
     }
 }
